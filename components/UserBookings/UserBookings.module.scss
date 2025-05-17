@@ -1,0 +1,38 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bookingItem {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid variables.$grid-lines;
+  border-radius: variables.$border-radius;
+  padding: 10px;
+}
+
+.bookingInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text {
+  font-size: 16px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  @include mixins.hover(transform, scale(1.1));
+}

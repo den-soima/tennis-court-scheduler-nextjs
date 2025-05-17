@@ -24,6 +24,7 @@ const eslintConfig = [
     },
     rules: {
       'prettier/prettier': 'error',
+      'multiline-ternary': 'off',
     },
   },
 ];

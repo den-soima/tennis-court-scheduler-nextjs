@@ -1,0 +1,101 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.page {
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: variables.$border-radius;
+  margin: 20px;
+
+  @include mixins.on-desktop {
+    margin-inline: 200px;
+  }
+}
+
+.container {
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @include mixins.on-desktop {
+    gap: 20px;
+  }
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputLabel {
+  text-align: center;
+}
+
+.input {
+  @include mixins.form-input;
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
+}
+
+.phoneInputBig {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  @include mixins.form-input;
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
+}
+
+.phoneInputSmall {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  max-width: 100px;
+}
+
+.span {
+  font-size: 16px;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+
+  font-size: 10px;
+  color: variables.$red-notification-text;
+
+  @include mixins.on-desktop {
+    font-size: 14px;
+    bottom: -7px;
+  }
+}
+
+.button {
+  @include mixins.green-button;
+}
+
+.notification {
+  color: red;
+}
+
+.link {
+  color: variables.$near-black-text;
+}

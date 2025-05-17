@@ -1,0 +1,19 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+
+  @include mixins.on-desktop {
+    padding-inline: 200px;
+  }
+}
+
+.modalOverlay {
+  @include mixins.modal-overlay;
+}

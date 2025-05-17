@@ -1,0 +1,39 @@
+/*** MOBILE ***/
+
+@mixin main-text-mobile {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+@mixin date-numbers-mobile {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+@mixin title-mobile {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/*** WEB ***/
+
+@mixin main-text-web {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+}
+
+@mixin date-numbers-web {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+@mixin title-web {
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}

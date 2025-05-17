@@ -1,0 +1,60 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.header {
+  display: flex;
+  height: 67px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 20px;
+  margin-inline: 16px;
+  position: sticky;
+  // top: 16px;
+  margin-top: 16px;
+  z-index: 100;
+
+  @include mixins.on-desktop {
+    margin-inline: 200px;
+  }
+}
+
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  color: #222;
+  transition: color 0.2s ease;
+
+  @include mixins.hover(transform, scale(1.05));
+  @include typography.title-mobile;
+
+  @include mixins.on-desktop {
+    @include typography.title-web;
+  }
+}
+
+.avatarWrapper {
+  position: relative;
+  cursor: pointer;
+  // width: 48px;
+  // height: 48px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+
+  @include mixins.hover(transform, scale(1.05));
+}
+
+.icon {
+  @include mixins.hover(transform, scale(1.1));
+}

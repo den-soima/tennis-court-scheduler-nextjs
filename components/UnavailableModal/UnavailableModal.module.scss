@@ -1,0 +1,37 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 20px;
+
+  @include mixins.on-desktop {
+    width: 350px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.text {
+  margin-bottom: 20px;
+  text-align: center;
+}

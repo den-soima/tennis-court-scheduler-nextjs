@@ -1,0 +1,38 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.tennisCourt {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  aspect-ratio: 5 / 3;
+  display: block;
+  background: #c1edc1;
+  border-radius: 10px;
+}
+
+.zone {
+  transition: fill 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    fill: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.ball {
+  fill: #ffff00;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pingpong 2s ease-in-out infinite alternate;
+}
+
+@keyframes pingpong {
+  0% {
+    transform: translate(var(--start-x, 0px), var(--start-y, 0px)) scale(1);
+  }
+  100% {
+    transform: translate(var(--end-x, 300px), var(--end-y, 40px)) scale(0.9);
+  }
+}

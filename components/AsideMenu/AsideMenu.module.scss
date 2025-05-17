@@ -1,0 +1,65 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.aside {
+  display: none;
+
+  position: fixed;
+  top: 83px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 16px;
+  background: variables.$background-gradient;
+
+  @include mixins.on-desktop {
+    padding-inline: 200px;
+  }
+}
+
+.menuOpened {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  background-color: variables.$white-background;
+  // max-width: 1024px;
+  padding: 16px;
+  border-radius: variables.$border-radius;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.navItem {
+  text-decoration: none;
+  color: variables.$near-black-text;
+  font-size: 18px;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.button {
+  @include mixins.green-button;
+
+  text-decoration: none;
+}
+
+.logoutButton {
+}

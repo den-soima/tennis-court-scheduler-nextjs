@@ -1,0 +1,83 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: variables.$white-background;
+  padding: 20px 20px 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 20px;
+
+  @include mixins.on-desktop {
+    width: 540px;
+    padding: 20px;
+  }
+}
+
+.container {
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  margin: 0 auto;
+}
+
+.description {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.clockWrapper {
+  display: flex;
+  gap: 40px;
+}
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonWrapper {
+  position: relative;
+}
+
+.formError {
+  position: absolute;
+  font-size: 14px;
+  color: red;
+  text-align: center;
+  bottom: 60px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button {
+  @include mixins.green-button;
+
+  margin-top: 35px;
+}

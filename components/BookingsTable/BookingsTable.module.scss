@@ -1,0 +1,44 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bookingItem {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid variables.$grid-lines;
+  border-radius: variables.$border-radius;
+  padding: 15px;
+}
+
+.bookingInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.text {
+  font-size: 16px;
+}
+
+.isUser {
+  border: 1px solid variables.$today-highlight;
+  background: variables.$today-highlight;
+}
+
+.bookingEmpty {
+  font-size: 16px;
+  text-align: center;
+}
+
+.isPast {
+  color: variables.$disabled-color;
+  background-color: variables.$white-background;
+  border: 1px solid variables.$grid-lines;
+}

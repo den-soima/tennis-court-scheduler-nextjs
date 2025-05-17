@@ -1,0 +1,27 @@
+$tablet-width: 640px;
+$laptop-width: 1024px;
+$border-radius: 20px;
+$padding-mobile: 20px;
+
+/** COLORS **/
+$primary-color: #4caf50;
+$accent-color: #81c784;
+$disabled-color: #ccc;
+
+/** Background **/
+$background-gradient: linear-gradient(to right, #eafe99, #fbdcb7);
+$grey-background: #f1f2f5;
+$white-background: #ffffff;
+$semi-transparent-background: rgba(0, 0, 0, 0.5);
+
+/** Text **/
+$near-black-text: #1c2526;
+$dark-grey-text: #6b7280;
+$red-notification-text: #ea0b0b;
+
+/** Calendar grid **/
+$today-highlight: #f0f8c6;
+$selected-day: #f9cb8a;
+$grid-lines: #e5e7eb;
+$has-booking: #c8f806;
+$has-past-booking: #f7fb03;

@@ -1,0 +1,174 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-bottom: 60px;
+  padding: 20px;
+
+  @include mixins.on-desktop {
+    padding-inline: 200px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @include mixins.page-background;
+}
+
+.title {
+  margin-block: 0;
+}
+
+.calendar {
+  @include mixins.page-background;
+}
+
+.calendarTop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.buttonArrow {
+  padding-inline: 10px;
+  display: flex;
+  background-color: variables.$white-background;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  @include mixins.hover(border, none);
+  @include mixins.focus(outline, none);
+}
+
+.arrow {
+  height: 16px;
+  width: 16px;
+}
+
+.buttonBook {
+  @include mixins.green-button;
+
+  position: fixed;
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%);
+}
+
+.disabled {
+  color: variables.$dark-grey-text;
+  background-color: variables.$grey-background;
+  cursor: not-allowed;
+
+  @include mixins.hover(color, variables.$dark-grey-text);
+}
+
+.weekdays,
+.days {
+  display: grid;
+  // grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+  margin-bottom: 10px;
+
+  @include typography.date-numbers-mobile;
+
+  @include mixins.on-desktop {
+    @include typography.date-numbers-web;
+  }
+}
+
+.day {
+  padding: 8px;
+  text-align: center;
+  background-color: variables.$white-background;
+  border: 1px solid variables.$grey-background;
+  border-radius: 12px;
+  outline: none;
+
+  @include mixins.on-desktop {
+    text-align: right;
+    height: 64px;
+  }
+}
+
+.currentDay {
+  background-color: variables.$today-highlight;
+  border: 1px solid variables.$today-highlight;
+}
+
+.workdayTile {
+  cursor: pointer;
+}
+
+.weekendTile {
+  background-color: variables.$grey-background;
+  cursor: pointer;
+}
+
+.selectedDay {
+  background-color: variables.$selected-day;
+  border: 1px solid variables.$selected-day;
+}
+
+.hasBooking {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: variables.$has-booking;
+    border-radius: 50%;
+
+    @include mixins.on-desktop {
+      left: 5px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+.empty {
+  border: none;
+}
+
+.bookTitle {
+  margin-block: 0;
+  text-align: center;
+}
+
+.book {
+  padding: 10px;
+  text-align: center;
+}
+
+.bookList {
+  width: 90%;
+}
+
+.bookItem {
+  list-style-type: none;
+}
+
+.notification {
+  text-align: center;
+  color: variables.$red-notification-text;
+}
+
+.modalOverlay {
+  @include mixins.modal-overlay;
+}
