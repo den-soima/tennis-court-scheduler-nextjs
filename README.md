@@ -78,8 +78,3 @@ MongoDB Atlas
 
 <img width="377" alt="Screenshot 2025-05-17 at 13 03 33" src="https://github.com/user-attachments/assets/2c0bfee7-59ac-48ad-9a41-79ed40dde0e7" />
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
