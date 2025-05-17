@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './UserBookings.module.scss';
-import { Booking } from '../../../scheduler/src/types/Booking';
+import { Booking } from '@/types/Booking';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { getDeleteIcon } from '@/lib/getImages';
