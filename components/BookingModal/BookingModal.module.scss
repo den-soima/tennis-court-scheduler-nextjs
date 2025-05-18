@@ -23,16 +23,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .title {
   margin: 0 auto;
 }
 
-.description {
+.date {
   text-align: center;
-  margin-bottom: 20px;
+
+  @include typography.date-numbers-mobile;
+
+  @include mixins.on-desktop {
+    @include typography.date-numbers-web;
+  }
 }
 
 .form {
@@ -40,6 +45,11 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+}
+
+.label {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .clockWrapper {
@@ -51,6 +61,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .buttonWrapper {
@@ -61,6 +72,8 @@
   position: absolute;
   font-size: 14px;
   color: red;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   bottom: 60px;
 }

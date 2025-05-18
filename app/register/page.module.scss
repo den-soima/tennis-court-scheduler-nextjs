@@ -26,9 +26,11 @@
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  @include mixins.form-size-mobile;
+
+  @include mixins.on-tablet {
+    width: 300px;
+  }
 
   @include mixins.on-desktop {
     gap: 20px;

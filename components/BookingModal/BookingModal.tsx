@@ -144,12 +144,12 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
         <div className={styles.container}>
           <h3 className={styles.title}>Бронювання</h3>
 
-          <p className={styles.description}>Забронювати корт на {dayjs(selectedDay).format('D MMMM YYYY')}</p>
+          <p className={styles.date}>{dayjs(selectedDay).format('D MMMM YYYY')}</p>
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.clockWrapper}>
               <div className={styles.clock}>
-                <label>Початок:</label>
+                <label className={styles.label}>Початок:</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <StyledClock
                     ampm={false}
@@ -163,7 +163,7 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
               </div>
 
               <div className={styles.clock}>
-                <label>Кінець:</label>
+                <label className={styles.label}>Кінець:</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <StyledClock
                     ampm={false}
