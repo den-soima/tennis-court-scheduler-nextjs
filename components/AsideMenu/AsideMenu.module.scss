@@ -13,15 +13,12 @@
   height: 100vh;
   z-index: 10;
   width: 100%;
+  max-width: 1024px;
 
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px;
   background: variables.$background-gradient;
-
-  @include mixins.on-desktop {
-    padding-inline: 200px;
-  }
 }
 
 .menuOpened {
@@ -31,12 +28,11 @@
 
 .menu {
   background-color: variables.$white-background;
-  // max-width: 1024px;
   padding: 16px;
   border-radius: variables.$border-radius;
 
   @include mixins.on-desktop {
-    margin-inline: 200px;
+    margin-inline: 180px;
   }
 }
 
