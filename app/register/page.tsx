@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/Loader/Loader';
 
 type FormValues = {
   name: string;
@@ -29,7 +30,7 @@ export default function Register() {
     },
   });
 
-  const { registerUser, error } = useAuth();
+  const { registerUser, loading, error } = useAuth();
   const router = useRouter();
   const [notification, setNotification] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -141,8 +142,8 @@ export default function Register() {
             </div>
 
             <div className={styles.buttonContainerBottom}>
-              <button type="submit" className={styles.button}>
-                Підтвердити
+              <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
+                {loading ? <Loader /> : 'Підтвердити'}
               </button>
 
               <button onClick={handleCancelClick} className={styles.buttonCancel}>

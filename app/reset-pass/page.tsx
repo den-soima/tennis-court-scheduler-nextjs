@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/Loader/Loader';
 
 type FormValues = {
   phone: string;
@@ -27,7 +28,7 @@ export default function ResetPassPage() {
     },
   });
 
-  const { resetPassword, error } = useAuth();
+  const { resetPassword, loading, error } = useAuth();
   const router = useRouter();
   const [notification, setNotification] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -114,8 +115,8 @@ export default function ResetPassPage() {
               {errors.repeatPassword && <span className={styles.errorMessage}>{errors.repeatPassword.message}</span>}
             </div>
 
-            <button type="submit" className={styles.button}>
-              Підтвердити
+            <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
+              {loading ? <Loader /> : 'Підтвердити'}
             </button>
           </form>
         </div>

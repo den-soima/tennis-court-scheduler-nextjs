@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Loader from '@/components/Loader/Loader';
 
 type FormValues = {
   phone: string;
@@ -25,7 +26,7 @@ export default function LoginPage() {
     },
   });
 
-  const { loginUser, error } = useAuth();
+  const { loginUser, loading, error } = useAuth();
   const router = useRouter();
   const [notification, setNotification] = useState('');
 
@@ -38,7 +39,7 @@ export default function LoginPage() {
       router.push('/');
     } else {
       reset();
-      setNotification(error || 'Щось пішло не так. Спробуйте ще раз');
+      setNotification(error);
     }
   };
 
@@ -91,8 +92,8 @@ export default function LoginPage() {
             {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
           </div>
 
-          <button type="submit" className={styles.button}>
-            Підтвердити
+          <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
+            {loading ? <Loader /> : 'Підтвердити'}
           </button>
         </form>
 

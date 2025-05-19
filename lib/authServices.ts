@@ -1,6 +1,8 @@
 import { User } from '@/types/User';
 import { postData, updateData } from './fetchData';
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const registerUserService = async (name: string, phone: string, password: string, setLoading: (loading: boolean) => void, setError: (error: string) => void): Promise<boolean> => {
   setLoading(true);
   setError('');
@@ -10,11 +12,13 @@ export const registerUserService = async (name: string, phone: string, password:
 
     try {
       await postData('/api/users', payload);
+      await delay(1000);
       setError('');
 
       return true;
     } catch (error) {
       const err = error as Error;
+      await delay(1000);
 
       if (err.message.includes('409')) {
         setError('Цей номер вже зареєстрований');
@@ -52,6 +56,8 @@ export const loginUserService = async (
       user: User;
     }>('/api/login', payload);
 
+    await delay(1000);
+
     localStorage.setItem('token', response.token);
     setUser(response.user);
     setError('');
@@ -59,6 +65,7 @@ export const loginUserService = async (
     return true;
   } catch (error) {
     const err = error as Error;
+    await delay(1000);
 
     if (err.message.includes('401')) {
       setError('Неправильний пароль');
@@ -74,9 +81,15 @@ export const loginUserService = async (
   }
 };
 
-export const logoutUserService = (setUser: (user: User | null) => void) => {
+export const logoutUserService = async (setUser: (user: User | null) => void, setLoading: (loading: boolean) => void) => {
+  setLoading(true);
+
+  await delay(1000);
+
   localStorage.removeItem('token');
   setUser(null);
+
+  setLoading(false);
 };
 
 export const resetPasswordService = async (phone: string, password: string, setLoading: (loading: boolean) => void, setError: (error: string) => void): Promise<boolean> => {
@@ -90,10 +103,14 @@ export const resetPasswordService = async (phone: string, password: string, setL
       phone: string;
       password: string;
     }>('/api/users/reset-password', payload);
+    await delay(1000);
+
     setError('');
 
     return true;
   } catch (error) {
+    await delay(1000);
+
     const err = error as Error;
 
     if (err.message.includes('404')) {

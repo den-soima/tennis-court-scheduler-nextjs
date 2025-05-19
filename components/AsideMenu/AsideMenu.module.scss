@@ -62,5 +62,6 @@
   text-decoration: none;
 }
 
-.logoutButton {
+.isLoading {
+  @include mixins.loading-button;
 }

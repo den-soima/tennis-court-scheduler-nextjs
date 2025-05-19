@@ -24,7 +24,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   registerUser: async () => false,
   loginUser: async () => false,
-  logoutUser: () => {},
+  logoutUser: async () => {},
   resetPassword: async () => false,
   loading: false,
   error: '',
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const logoutUser = () => {
-    logoutUserService(setUser);
+    return logoutUserService(setUser, setLoading);
   };
 
   const resetPassword = (phone: string, password: string) => {

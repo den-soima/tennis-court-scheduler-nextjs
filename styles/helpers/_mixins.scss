@@ -67,6 +67,11 @@
   }
 }
 
+@mixin loading-button {
+  height: 54.5px;
+  background-color: variables.$disabled-color;
+}
+
 @mixin back-button {
   height: 48px;
   padding-inline: 16px;

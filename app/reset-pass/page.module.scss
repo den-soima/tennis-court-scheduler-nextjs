@@ -94,6 +94,10 @@
   @include mixins.green-button;
 }
 
+.isLoading {
+  @include mixins.loading-button;
+}
+
 .notification {
   text-align: center;
 }

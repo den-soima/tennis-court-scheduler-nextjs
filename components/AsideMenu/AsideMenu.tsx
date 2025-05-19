@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useAuth } from '@/context/authContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Loader from '../Loader/Loader';
 
 type Props = {
   isOpen: boolean;
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export default function AsideMenu({ isOpen, handleMenuVisibility, user }: Props) {
-  const { logoutUser } = useAuth();
+  const { logoutUser, loading } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -38,8 +39,8 @@ export default function AsideMenu({ isOpen, handleMenuVisibility, user }: Props)
                 Мої бронювання
               </Link>
 
-              <button className={styles.button} onClick={() => logoutUser()}>
-                Вийти
+              <button className={`${styles.button} ${loading ? styles.isLoading : ''}`} onClick={() => logoutUser()}>
+                {loading ? <Loader /> : 'Вийти'}
               </button>
             </>
           )}

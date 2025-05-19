@@ -94,8 +94,12 @@
   @include mixins.green-button;
 }
 
+.isLoading {
+  @include mixins.loading-button;
+}
+
 .notification {
-  color: red;
+  color: variables.$red-notification-text;
 }
 
 .link {
