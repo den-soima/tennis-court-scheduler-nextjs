@@ -60,8 +60,6 @@ Mongoose
 
 MongoDB Atlas
 
-
-
 <img width="377" alt="Screenshot 2025-05-17 at 12 41 35" src="https://github.com/user-attachments/assets/b9c16a68-f996-43a9-966c-3f867a96d504" />
 
 <img width="382" alt="Screenshot 2025-05-17 at 12 41 54" src="https://github.com/user-attachments/assets/ed48c6e4-1499-4933-bd4d-f140ba380d1c" />
@@ -77,4 +75,3 @@ MongoDB Atlas
 <img width="378" alt="Screenshot 2025-05-17 at 12 42 30" src="https://github.com/user-attachments/assets/b7e9e470-1e4e-4ac0-9db1-bc1575e3b60c" />
 
 <img width="377" alt="Screenshot 2025-05-17 at 13 03 33" src="https://github.com/user-attachments/assets/2c0bfee7-59ac-48ad-9a41-79ed40dde0e7" />
-

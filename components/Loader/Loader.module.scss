@@ -4,8 +4,8 @@
 
 .loader {
   display: flex;
-    gap: 8px;
-  }
+  gap: 8px;
+}
 
 .dot {
   width: 8px;
@@ -24,7 +24,8 @@
 }
 
 @keyframes scaleUpDown {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.7;
   }

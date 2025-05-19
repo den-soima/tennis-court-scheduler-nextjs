@@ -19,7 +19,13 @@ export default function LocationCard({ location, isWorking, onClick }: Props) {
     <div className={styles.card}>
       <Link href={isWorking ? `/calendar/${_id}` : '#'} onClick={onClick}>
         {image ? (
-          <Image src={image} alt="Location" className={styles.locationImage} width={400} height={300} />
+          <Image
+            src={image}
+            alt="Location"
+            className={styles.locationImage}
+            width={400}
+            height={300}
+          />
         ) : (
           <div className={styles.imageWrapper}>
             <CourtAnimation />

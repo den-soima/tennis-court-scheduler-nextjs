@@ -41,9 +41,21 @@ export default function Header() {
 
       <Link href="/" className={styles.avatarWrapper} onClick={handleMenuVisibility}>
         {mounted && user ? (
-          <Image src={getAvatarIcon()} alt="User" className={styles.avatar} width={24} height={24} />
+          <Image
+            src={getAvatarIcon()}
+            alt="User"
+            className={styles.avatar}
+            width={24}
+            height={24}
+          />
         ) : isOpen ? (
-          <Image src={getCloseMenuIcon()} alt="Close menu" className={styles.icon} width={24} height={24} />
+          <Image
+            src={getCloseMenuIcon()}
+            alt="Close menu"
+            className={styles.icon}
+            width={24}
+            height={24}
+          />
         ) : (
           <Image src={getLoginIcon()} alt="Login" className={styles.icon} width={24} height={24} />
         )}

@@ -29,7 +29,14 @@ export default function Home() {
       {locations.map((location: Location) => {
         const isWorking = location._id === '1';
 
-        return <LocationCard location={location} isWorking={isWorking} key={location._id} onClick={() => handleCardClick(location._id, isWorking)} />;
+        return (
+          <LocationCard
+            location={location}
+            isWorking={isWorking}
+            key={location._id}
+            onClick={() => handleCardClick(location._id, isWorking)}
+          />
+        );
       })}
 
       {showModal && (

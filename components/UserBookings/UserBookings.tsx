@@ -25,7 +25,13 @@ export const UserBookings = ({ bookings, formatCourtName, deleteBooking }: Props
             <span className={styles.text}>📍 {formatCourtName(booking.courtId)}</span>
 
             <button className={styles.deleteButton} onClick={() => deleteBooking(booking._id)}>
-              <Image className={styles.icon} src={getDeleteIcon()} alt="Delete" width={24} height={24} />
+              <Image
+                className={styles.icon}
+                src={getDeleteIcon()}
+                alt="Delete"
+                width={24}
+                height={24}
+              />
             </button>
           </div>
         </li>

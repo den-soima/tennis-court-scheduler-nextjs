@@ -38,7 +38,8 @@ const BookingsTable = ({ bookings, user }: Props) => {
         <ul className={styles.bookingList}>
           {sortedBookings.map((booking) => {
             const now = dayjs();
-            const isOngoing = now.isAfter(dayjs(booking.startTime)) && now.isBefore(dayjs(booking.endTime));
+            const isOngoing =
+              now.isAfter(dayjs(booking.startTime)) && now.isBefore(dayjs(booking.endTime));
 
             const isPast = dayjs(booking.endTime).isBefore(now);
 
@@ -52,9 +53,12 @@ const BookingsTable = ({ bookings, user }: Props) => {
                 `}
               >
                 <div className={styles.bookingInfo}>
-                  <span className={styles.text}>{isOngoing ? 'Зараз 🎾' : dayjs(booking.startTime).format('D/MM')}</span>
                   <span className={styles.text}>
-                    {dayjs(booking.startTime).format('HH:mm')} – {dayjs(booking.endTime).format('HH:mm')}
+                    {isOngoing ? 'Зараз 🎾' : dayjs(booking.startTime).format('D/MM')}
+                  </span>
+                  <span className={styles.text}>
+                    {dayjs(booking.startTime).format('HH:mm')} –{' '}
+                    {dayjs(booking.endTime).format('HH:mm')}
                   </span>
                   <span className={styles.text}>{booking.userName}</span>
                 </div>

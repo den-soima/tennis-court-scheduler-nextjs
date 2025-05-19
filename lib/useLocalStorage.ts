@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (v: T | ((val: T) => T)) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (v: T | ((val: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
       // If SSR, return initial value directly (no access to localStorage)

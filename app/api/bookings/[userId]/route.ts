@@ -16,6 +16,9 @@ export async function GET(_: NextRequest, context: unknown) {
 
     return NextResponse.json(bookings, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Unknown error' }, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 400 }
+    );
   }
 }

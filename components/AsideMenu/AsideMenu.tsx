@@ -39,7 +39,10 @@ export default function AsideMenu({ isOpen, handleMenuVisibility, user }: Props)
                 Мої бронювання
               </Link>
 
-              <button className={`${styles.button} ${loading ? styles.isLoading : ''}`} onClick={() => logoutUser()}>
+              <button
+                className={`${styles.button} ${loading ? styles.isLoading : ''}`}
+                onClick={() => logoutUser()}
+              >
                 {loading ? <Loader /> : 'Вийти'}
               </button>
             </>

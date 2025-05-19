@@ -14,7 +14,13 @@ type Props = {
   setCurrentMonth: (month: dayjs.Dayjs) => void;
 };
 
-export default function BookingCalendar({ bookings, selectedDay, setSelectedDay, currentMonth, setCurrentMonth }: Props) {
+export default function BookingCalendar({
+  bookings,
+  selectedDay,
+  setSelectedDay,
+  currentMonth,
+  setCurrentMonth,
+}: Props) {
   const today = dayjs();
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
@@ -35,11 +41,20 @@ export default function BookingCalendar({ bookings, selectedDay, setSelectedDay,
     const isAfterTwoWeeks = dateObj ? dateObj.isAfter(twoWeeksFromNow, 'day') : false;
     const isWeekend = index % 7 === 5 || index % 7 === 6;
 
-    const hasRelevantBooking = day && relevantBookings.some((b) => dayjs(b.startTime).date() === day && dayjs(b.startTime).isSame(currentMonth, 'month'));
+    const hasRelevantBooking =
+      day &&
+      relevantBookings.some(
+        (b) => dayjs(b.startTime).date() === day && dayjs(b.startTime).isSame(currentMonth, 'month')
+      );
 
-    const hasPastBooking = day && pastBookings.some((b) => dayjs(b.startTime).date() === day && dayjs(b.startTime).isSame(currentMonth, 'month'));
+    const hasPastBooking =
+      day &&
+      pastBookings.some(
+        (b) => dayjs(b.startTime).date() === day && dayjs(b.startTime).isSame(currentMonth, 'month')
+      );
 
-    const isToday = day === today.date() && currentMonth.isSame(today, 'month') && day !== selectedDay;
+    const isToday =
+      day === today.date() && currentMonth.isSame(today, 'month') && day !== selectedDay;
 
     const isSelected = day === selectedDay && selectedDay !== null;
 
@@ -83,13 +98,25 @@ export default function BookingCalendar({ bookings, selectedDay, setSelectedDay,
     <div className={styles.calendar}>
       <div className={styles.calendarTop}>
         <button className={styles.buttonArrow} onClick={handlePrevMonthClick}>
-          <Image src={getArrowLeftIcon()} alt="Left" className={styles.arrow} width={16} height={16} />
+          <Image
+            src={getArrowLeftIcon()}
+            alt="Left"
+            className={styles.arrow}
+            width={16}
+            height={16}
+          />
         </button>
 
         <h3 className={styles.title}>{formattedDate}</h3>
 
         <button className={styles.buttonArrow} onClick={handleNextMonthClick}>
-          <Image src={getArrowRightIcon()} alt="Right" className={styles.arrow} width={16} height={16} />
+          <Image
+            src={getArrowRightIcon()}
+            alt="Right"
+            className={styles.arrow}
+            width={16}
+            height={16}
+          />
         </button>
       </div>
 

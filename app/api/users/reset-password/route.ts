@@ -10,13 +10,19 @@ export async function PATCH(req: NextRequest) {
     const { phone, password } = await req.json();
 
     if (!phone || !password) {
-      return NextResponse.json({ error: 'Номер телефону та новий пароль обовʼязкові' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Номер телефону та новий пароль обовʼязкові' },
+        { status: 400 }
+      );
     }
 
     const user = await User.findOne({ phone });
 
     if (!user) {
-      return NextResponse.json({ error: 'Користувача з таким номером не знайдено' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Користувача з таким номером не знайдено' },
+        { status: 404 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

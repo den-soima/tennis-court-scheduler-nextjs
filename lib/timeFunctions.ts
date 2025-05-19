@@ -25,7 +25,11 @@ export const disableStarts = (bookedStarts: Dayjs[], bookedEnds: Dayjs[]) => {
       }
 
       if (view === 'hours') {
-        return (hour === startHour && minute >= startMinute) || (hour === endHour && minute < endMinute) || (hour > startHour && hour < endHour);
+        return (
+          (hour === startHour && minute >= startMinute) ||
+          (hour === endHour && minute < endMinute) ||
+          (hour > startHour && hour < endHour)
+        );
       }
 
       if (view === 'minutes') {
@@ -62,7 +66,11 @@ export const disableEnds = (bookedStarts: Dayjs[], bookedEnds: Dayjs[]) => {
       const isInsideBookedRange = isAfterStart && isBeforeOrEqualEnd;
 
       if (view === 'hours') {
-        return (hour === startHour && minute > startMinute) || (hour === endHour && minute <= endMinute) || (hour > startHour && hour < endHour);
+        return (
+          (hour === startHour && minute > startMinute) ||
+          (hour === endHour && minute <= endMinute) ||
+          (hour > startHour && hour < endHour)
+        );
       }
 
       if (view === 'minutes') {

@@ -82,14 +82,26 @@ export default function Calendar() {
 
   return (
     <div className={styles.page}>
-      <BookingCalendar bookings={allBookings} selectedDay={selectedDay!} setSelectedDay={setSelectedDay} currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} />
+      <BookingCalendar
+        bookings={allBookings}
+        selectedDay={selectedDay!}
+        setSelectedDay={setSelectedDay}
+        currentMonth={currentMonth}
+        setCurrentMonth={setCurrentMonth}
+      />
 
       <div className={styles.wrapper}>
         <h3 className={styles.bookTitle}>📍 {location.name}</h3>
 
-        {selectedDay ? <BookingsTable bookings={filteredBookings} user={user} /> : <p className={styles.book}>Оберіть день для перегляду бронювань</p>}
+        {selectedDay ? (
+          <BookingsTable bookings={filteredBookings} user={user} />
+        ) : (
+          <p className={styles.book}>Оберіть день для перегляду бронювань</p>
+        )}
 
-        {showNotification && <p className={styles.notification}>Будь ласка оберіть дату бронювання</p>}
+        {showNotification && (
+          <p className={styles.notification}>Будь ласка оберіть дату бронювання</p>
+        )}
       </div>
 
       {modal === 'booking' && typeof selectedDay === 'number' && user && (
@@ -111,7 +123,11 @@ export default function Calendar() {
         </div>
       )}
 
-      <button disabled={isPastSelectedDay || selectedDay === null} className={`${styles.buttonBook} ${!selectedDay ? styles.disabled : ''}`} onClick={handleBookClick}>
+      <button
+        disabled={isPastSelectedDay || selectedDay === null}
+        className={`${styles.buttonBook} ${!selectedDay ? styles.disabled : ''}`}
+        onClick={handleBookClick}
+      >
         Забронювати корт
       </button>
     </div>

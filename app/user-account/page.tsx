@@ -85,7 +85,11 @@ export default function UserAccount() {
           <div className={styles.wrapper}>
             <h3 className={styles.title}>Усі бронювання</h3>
 
-            <UserBookings bookings={bookings} formatCourtName={formatCourtName} deleteBooking={deleteBooking} />
+            <UserBookings
+              bookings={bookings}
+              formatCourtName={formatCourtName}
+              deleteBooking={deleteBooking}
+            />
           </div>
 
           <Link href="/calendar/1" className={styles.button}>

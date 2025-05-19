@@ -26,7 +26,14 @@ type Props = {
   onBookingSuccess?: () => void;
 };
 
-export default function BookingModal({ userName, userId, courtId, selectedDay, onClose, onBookingSuccess }: Props) {
+export default function BookingModal({
+  userName,
+  userId,
+  courtId,
+  selectedDay,
+  onClose,
+  onBookingSuccess,
+}: Props) {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -76,7 +83,9 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
         setLoading(false);
       }, 3000);
 
-      throw new Error(error instanceof Error ? error.message : 'Не вдалося забронювати корт. Спробуйте ще раз');
+      throw new Error(
+        error instanceof Error ? error.message : 'Не вдалося забронювати корт. Спробуйте ще раз'
+      );
     }
   };
 
@@ -84,9 +93,15 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
     event.preventDefault();
     const now = dayjs();
 
-    const bookingStart = startTime && dayjs(selectedDay).set('hour', dayjs(startTime).hour()).set('minute', dayjs(startTime).minute());
+    const bookingStart =
+      startTime &&
+      dayjs(selectedDay)
+        .set('hour', dayjs(startTime).hour())
+        .set('minute', dayjs(startTime).minute());
 
-    const bookingEnd = endTime && dayjs(selectedDay).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
+    const bookingEnd =
+      endTime &&
+      dayjs(selectedDay).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
 
     switch (true) {
       case !startTime || !endTime:
@@ -107,9 +122,15 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
     }
 
     try {
-      const startDateTime = dayjs(selectedDay).set('hour', dayjs(startTime).hour()).set('minute', dayjs(startTime).minute()).toISOString();
+      const startDateTime = dayjs(selectedDay)
+        .set('hour', dayjs(startTime).hour())
+        .set('minute', dayjs(startTime).minute())
+        .toISOString();
 
-      const endDateTime = dayjs(selectedDay).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute()).toISOString();
+      const endDateTime = dayjs(selectedDay)
+        .set('hour', dayjs(endTime).hour())
+        .set('minute', dayjs(endTime).minute())
+        .toISOString();
 
       const date = dayjs(selectedDay).format('YYYY-MM-DD');
 
@@ -191,7 +212,10 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
             <div className={styles.buttonWrapper}>
               {formError && <p className={styles.formError}>{formError}</p>}
 
-              <button className={`${styles.button} ${loading ? styles.isLoading : ''}`} disabled={!startTime || !endTime}>
+              <button
+                className={`${styles.button} ${loading ? styles.isLoading : ''}`}
+                disabled={!startTime || !endTime}
+              >
                 {loading ? <Loader /> : 'Підтвердити'}
               </button>
             </div>
