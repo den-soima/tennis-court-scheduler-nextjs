@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { disableEnds, disableStarts } from '@/lib/timeFunctions';
 import { getData, postData } from '@/lib/fetchData';
 import { StyledClock } from '@/lib/muiStyles';
+import Loader from '../Loader/Loader';
 
 dayjs.extend(utc);
 
@@ -28,6 +29,7 @@ type Props = {
 export default function BookingModal({ userName, userId, courtId, selectedDay, onClose, onBookingSuccess }: Props) {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [bookedStarts, setBookedStarts] = useState<Dayjs[]>([]);
   const [bookedEnds, setBookedEnds] = useState<Dayjs[]>([]);
@@ -61,10 +63,19 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
 
   const bookCourt = async (booking: CreateBooking) => {
     try {
+      setLoading(true);
       const response = await postData<BookingServer>('/api/bookings', booking);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
 
       return response;
     } catch (error) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
       throw new Error(error instanceof Error ? error.message : 'Не вдалося забронювати корт. Спробуйте ще раз');
     }
   };
@@ -180,8 +191,8 @@ export default function BookingModal({ userName, userId, courtId, selectedDay, o
             <div className={styles.buttonWrapper}>
               {formError && <p className={styles.formError}>{formError}</p>}
 
-              <button className={styles.button} disabled={!startTime && !endTime}>
-                Підтвердити
+              <button className={`${styles.button} ${loading ? styles.isLoading : ''}`} disabled={!startTime || !endTime}>
+                {loading ? <Loader /> : 'Підтвердити'}
               </button>
             </div>
           </form>
