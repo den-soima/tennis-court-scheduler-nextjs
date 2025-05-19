@@ -39,13 +39,16 @@
 .title {
   margin-block: 0;
   text-align: center;
-
-  // @include mixins.on-desktop {
-  //   font-size: 24px;
-  // }
 }
 
 .text {
   text-align: center;
   font-size: 16px;
+}
+
+.loaderWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

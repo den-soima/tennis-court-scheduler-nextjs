@@ -15,6 +15,7 @@ import { useAuth } from '@/context/authContext';
 import { convertBookingToDayjs } from '@/lib/convertBookings';
 import { useParams } from 'next/navigation';
 import BookingModal from '@/components/BookingModal/BookingModal';
+import Loader from '@/components/Loader/Loader';
 
 dayjs.locale('uk');
 
@@ -26,10 +27,13 @@ export default function Calendar() {
   const [modal, setModal] = useState<ModalType>(null);
   const [showNotification, setShowNotification] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const location = locations.find((loc) => loc._id === locationId);
 
   const fetchBookings = async () => {
+    setLoading(true);
+
     try {
       const data = await getData<BookingServer[]>('/api/bookings');
       const allBookings = data.map(convertBookingToDayjs);
@@ -37,6 +41,8 @@ export default function Calendar() {
       setBookings(allBookings);
     } catch (err) {
       console.error('Error fetching bookings:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,7 +99,11 @@ export default function Calendar() {
       <div className={styles.wrapper}>
         <h3 className={styles.bookTitle}>📍 {location.name}</h3>
 
-        {selectedDay ? (
+        {loading ? (
+          <div className={styles.loaderWrapper}>
+            <Loader />
+          </div>
+        ) : selectedDay ? (
           <BookingsTable bookings={filteredBookings} user={user} />
         ) : (
           <p className={styles.book}>Оберіть день для перегляду бронювань</p>

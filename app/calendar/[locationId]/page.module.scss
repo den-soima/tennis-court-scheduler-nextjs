@@ -8,6 +8,7 @@
   margin: 0 auto;
   margin-bottom: 60px;
   padding: 20px;
+  gap: 16px;
 
   @include mixins.on-desktop {
     padding-inline: 200px;
@@ -171,4 +172,11 @@
 
 .modalOverlay {
   @include mixins.modal-overlay;
+}
+
+.loaderWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

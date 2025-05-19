@@ -9,6 +9,7 @@ import { deleteData, getData } from '@/lib/fetchData';
 import { convertBookingToDayjs } from '@/lib/convertBookings';
 import Link from 'next/link';
 import { UserBookings } from '@/components/UserBookings/UserBookings';
+import Loader from '@/components/Loader/Loader';
 
 const courts: { [key: string]: string } = {
   '1': 'Щасливе',
@@ -20,6 +21,7 @@ export default function UserAccount() {
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
@@ -27,6 +29,8 @@ export default function UserAccount() {
 
   useEffect(() => {
     const fetchBookings = async () => {
+      setLoading(true);
+
       try {
         const data = await getData<BookingServer[]>(`/api/bookings/${user?.id}`);
         const bookingsWithDayjs = data.map(convertBookingToDayjs);
@@ -34,6 +38,8 @@ export default function UserAccount() {
         setBookings(bookingsWithDayjs);
       } catch (err) {
         console.error('Error fetching bookings:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -61,7 +67,11 @@ export default function UserAccount() {
       <div className={styles.container}>
         {mounted && user && <h3 className={styles.title}>{`Привіт, ${user.name}!`}</h3>}
 
-        {nearestBooking ? (
+        {loading ? (
+          <div className={styles.loaderWrapper}>
+            <Loader />
+          </div>
+        ) : nearestBooking ? (
           <p className={styles.text}>
             {`Твоє найближче бронювання у 📍 ${formatCourtName(nearestBooking.courtId)} ${
               dayjs(nearestBooking.startTime).isSame(dayjs(), 'day')
