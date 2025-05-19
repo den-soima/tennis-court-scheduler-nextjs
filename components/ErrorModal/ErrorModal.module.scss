@@ -13,7 +13,7 @@
   border-radius: 20px;
 
   @include mixins.on-desktop {
-    width: 540px;
+    width: 300px;
     padding: 20px;
   }
 }
