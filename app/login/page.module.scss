@@ -98,10 +98,10 @@
   @include mixins.loading-button;
 }
 
-.notification {
-  color: variables.$red-notification-text;
-}
-
 .link {
   color: variables.$near-black-text;
+}
+
+.modalOverlay {
+  @include mixins.modal-overlay;
 }

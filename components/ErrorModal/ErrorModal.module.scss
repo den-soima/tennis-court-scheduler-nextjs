@@ -1,0 +1,46 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 20px;
+
+  @include mixins.on-desktop {
+    width: 540px;
+    padding: 20px;
+  }
+}
+
+.text {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button {
+  @include mixins.green-button;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

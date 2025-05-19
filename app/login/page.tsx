@@ -7,6 +7,7 @@ import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Loader from '@/components/Loader/Loader';
+import ErrorModal from '@/components/ErrorModal/ErrorModal';
 
 type FormValues = {
   phone: string;
@@ -17,7 +18,6 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -26,20 +26,21 @@ export default function LoginPage() {
     },
   });
 
-  const { loginUser, loading, error } = useAuth();
+  const { loginUser, loading } = useAuth();
   const router = useRouter();
   const [notification, setNotification] = useState('');
+  const [modal, setModal] = useState<boolean>(false);
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
 
-    const success = await loginUser(preparedPhone, data.password);
+    const result = await loginUser(preparedPhone, data.password);
 
-    if (success) {
+    if (result.success) {
       router.push('/');
     } else {
-      reset();
-      setNotification(error);
+      setModal(true);
+      setNotification(result.errorMessage || 'Щось пішло не так. Спробуйте ще раз.');
     }
   };
 
@@ -89,7 +90,9 @@ export default function LoginPage() {
               })}
             />
 
-            {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
+            {errors.password && (
+              <span className={styles.errorMessage}>{errors.password.message}</span>
+            )}
           </div>
 
           <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
@@ -101,7 +104,11 @@ export default function LoginPage() {
           {"Я не пам'ятаю свій пароль"}
         </Link>
 
-        {notification && <div className={styles.notification}>{notification}</div>}
+        {modal && (
+          <div className={styles.modalOverlay}>
+            <ErrorModal onClose={() => setModal(false)} notification={notification} />
+          </div>
+        )}
       </div>
     </div>
   );

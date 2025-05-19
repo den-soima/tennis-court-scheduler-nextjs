@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader/Loader';
+import ErrorModal from '@/components/ErrorModal/ErrorModal';
 
 type FormValues = {
   phone: string;
@@ -17,8 +18,8 @@ export default function ResetPassPage() {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -28,28 +29,28 @@ export default function ResetPassPage() {
     },
   });
 
-  const { resetPassword, loading, error } = useAuth();
+  const { resetPassword, loading } = useAuth();
   const router = useRouter();
-  const [notification, setNotification] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorNotification, setErrorNotification] = useState('');
+  const [successNotification, setSuccessNotificatoin] = useState('');
+  const [modal, setModal] = useState(false);
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
-    const success = await resetPassword(preparedPhone, data.password);
+    const result = await resetPassword(preparedPhone, data.password);
 
-    if (success) {
-      setIsSuccess(true);
-      setNotification('Пароль успішно змінений');
-    } else {
-      setIsSuccess(false);
-      setNotification(error || 'Щось пішло не так. Спробуйте ще раз.');
+    if (result.success) {
+      setSuccessNotificatoin('Пароль успішно змінений');
       reset();
+    } else {
+      setModal(true);
+      setErrorNotification(result.errorMessage || 'Щось пішло не так. Спробуйте ще раз.');
     }
   };
 
   return (
     <div className={styles.page}>
-      {!isSuccess && !notification && (
+      {!successNotification && (
         <div className={styles.container}>
           <h3 className={styles.title}>Зміна паролю</h3>
 
@@ -91,11 +92,14 @@ export default function ResetPassPage() {
                 id="password"
                 {...register('password', {
                   required: 'Будь ласка, введіть пароль',
-                  validate: (value) => value.length >= 6 || 'Пароль має бути щонайменше 6 символів довжиною',
+                  validate: (value) =>
+                    value.length >= 6 || 'Пароль має бути щонайменше 6 символів довжиною',
                 })}
               />
 
-              {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
+              {errors.password && (
+                <span className={styles.errorMessage}>{errors.password.message}</span>
+              )}
             </div>
 
             <div className={styles.inputContainer}>
@@ -112,35 +116,31 @@ export default function ResetPassPage() {
                 })}
               />
 
-              {errors.repeatPassword && <span className={styles.errorMessage}>{errors.repeatPassword.message}</span>}
+              {errors.repeatPassword && (
+                <span className={styles.errorMessage}>{errors.repeatPassword.message}</span>
+              )}
             </div>
 
             <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
               {loading ? <Loader /> : 'Підтвердити'}
             </button>
           </form>
+
+          {modal && (
+            <div className={styles.modalOverlay}>
+              <ErrorModal onClose={() => setModal(false)} notification={errorNotification} />
+            </div>
+          )}
         </div>
       )}
 
-      {notification && (
+      {successNotification && (
         <>
-          <div className={styles.notification}>{notification}</div>
+          <div className={styles.notification}>{successNotification}</div>
 
-          {isSuccess ? (
-            <button className={styles.button} onClick={() => router.push('/login')}>
-              Увійти
-            </button>
-          ) : (
-            <button
-              className={styles.button}
-              onClick={() => {
-                setNotification('');
-                router.push('/reset-pass');
-              }}
-            >
-              Змінити пароль
-            </button>
-          )}
+          <button className={styles.button} onClick={() => router.push('/login')}>
+            Увійти
+          </button>
         </>
       )}
     </div>

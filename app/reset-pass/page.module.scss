@@ -101,3 +101,7 @@
 .notification {
   text-align: center;
 }
+
+.modalOverlay {
+  @include mixins.modal-overlay;
+}

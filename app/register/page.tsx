@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader/Loader';
+import ErrorModal from '@/components/ErrorModal/ErrorModal';
 
 type FormValues = {
   name: string;
@@ -30,22 +31,22 @@ export default function Register() {
     },
   });
 
-  const { registerUser, loading, error } = useAuth();
+  const { registerUser, loading } = useAuth();
   const router = useRouter();
-  const [notification, setNotification] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorNotification, setErrorNotification] = useState('');
+  const [successNotification, setSuccessNotificatoin] = useState('');
+  const [modal, setModal] = useState(false);
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
-    const success = await registerUser(data.name, preparedPhone, data.password);
+    const result = await registerUser(data.name, preparedPhone, data.password);
 
-    if (success) {
-      setIsSuccess(true);
-      setNotification('Ви успішно зареєструвались!');
-    } else {
-      setIsSuccess(false);
-      setNotification(error || 'Щось пішло не так. Спробуйте ще раз.');
+    if (result.success) {
+      setSuccessNotificatoin('Ви успішно зареєструвались!');
       reset();
+    } else {
+      setModal(true);
+      setErrorNotification(result.errorMessage || 'Щось пішло не так. Спробуйте ще раз.');
     }
   };
 
@@ -56,7 +57,7 @@ export default function Register() {
 
   return (
     <div className={styles.page}>
-      {!isSuccess && !notification && (
+      {!successNotification && (
         <div className={styles.container}>
           <h3 className={styles.title}>Реєстрація</h3>
 
@@ -117,11 +118,14 @@ export default function Register() {
                 id="password"
                 {...register('password', {
                   required: 'Будь ласка, введіть пароль',
-                  validate: (value) => value.length >= 6 || 'Пароль має бути щонайменше 6 символів довжиною',
+                  validate: (value) =>
+                    value.length >= 6 || 'Пароль має бути щонайменше 6 символів довжиною',
                 })}
               />
 
-              {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
+              {errors.password && (
+                <span className={styles.errorMessage}>{errors.password.message}</span>
+              )}
             </div>
 
             <div className={styles.inputContainer}>
@@ -138,11 +142,16 @@ export default function Register() {
                 })}
               />
 
-              {errors.repeatPassword && <span className={styles.errorMessage}>{errors.repeatPassword.message}</span>}
+              {errors.repeatPassword && (
+                <span className={styles.errorMessage}>{errors.repeatPassword.message}</span>
+              )}
             </div>
 
             <div className={styles.buttonContainerBottom}>
-              <button type="submit" className={`${styles.button} ${loading ? styles.isLoading : ''}`}>
+              <button
+                type="submit"
+                className={`${styles.button} ${loading ? styles.isLoading : ''}`}
+              >
                 {loading ? <Loader /> : 'Підтвердити'}
               </button>
 
@@ -151,28 +160,22 @@ export default function Register() {
               </button>
             </div>
           </form>
+
+          {modal && (
+            <div className={styles.modalOverlay}>
+              <ErrorModal onClose={() => setModal(false)} notification={errorNotification} />
+            </div>
+          )}
         </div>
       )}
 
-      {notification && (
+      {successNotification && (
         <>
-          <div className={styles.notification}>{notification}</div>
+          <div className={styles.notification}>{successNotification}</div>
 
-          {isSuccess ? (
-            <button className={styles.button} onClick={() => router.push('/login')}>
-              Увійти
-            </button>
-          ) : (
-            <button
-              className={styles.button}
-              onClick={() => {
-                setNotification('');
-                router.push('/register');
-              }}
-            >
-              Зареєструватися
-            </button>
-          )}
+          <button className={styles.button} onClick={() => router.push('/login')}>
+            Увійти
+          </button>
         </>
       )}
     </div>
