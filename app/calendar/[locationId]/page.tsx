@@ -50,6 +50,14 @@ export default function Calendar() {
     fetchBookings();
   }, [locationId]);
 
+  useEffect(() => {
+    if (modal) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+    }
+  }, [modal]);
+
   if (!location || !locationId) {
     return <div className={styles.error}>Invalid location</div>;
   }

@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import styles from './page.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader/Loader';
@@ -35,6 +35,14 @@ export default function ResetPassPage() {
   const [successNotification, setSuccessNotificatoin] = useState('');
   const [modal, setModal] = useState(false);
 
+  useEffect(() => {
+    if (modal) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+    }
+  }, [modal]);
+
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
     const result = await resetPassword(preparedPhone, data.password);
@@ -54,7 +62,7 @@ export default function ResetPassPage() {
         <div className={styles.container}>
           <h3 className={styles.title}>Зміна паролю</h3>
 
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete="on">
             <div className={styles.inputContainer}>
               <label className={styles.inputLabel} htmlFor="phone">
                 Твій номер телефону:
@@ -66,6 +74,7 @@ export default function ResetPassPage() {
                   className={styles.phoneInputSmall}
                   type="tel"
                   id="phone"
+                  autoComplete="tel"
                   maxLength={9}
                   onKeyDown={(e) => {
                     if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
@@ -90,6 +99,7 @@ export default function ResetPassPage() {
                 className={styles.input}
                 type="password"
                 id="password"
+                autoComplete="new-password"
                 {...register('password', {
                   required: 'Будь ласка, введіть пароль',
                   validate: (value) =>

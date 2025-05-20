@@ -17,21 +17,17 @@ export default function Header() {
     setIsOpen((prev: boolean) => !prev);
   };
 
-  const menuOverflowStatus = (menuVisibility: boolean) => {
-    if (menuVisibility) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
       document.documentElement.style.overflow = 'hidden';
     } else {
       document.documentElement.style.overflow = 'auto';
     }
-  };
-
-  useEffect(() => {
-    menuOverflowStatus(isOpen);
   }, [isOpen]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <header className={styles.header}>

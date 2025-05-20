@@ -5,12 +5,20 @@ import { Location } from '@/types/Location';
 import { locations } from '@/lib/locations';
 import UnavailableModal from '@/components/UnavailableModal/UnavailableModal';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LocationCard from '@/components/LocationCard/LocationCard';
 
 export default function Home() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (showModal) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+    }
+  }, [showModal]);
 
   const handleCardClick = (locationId: string, isWorking: boolean) => {
     if (isWorking) {

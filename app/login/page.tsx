@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import styles from './page.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -31,6 +31,14 @@ export default function LoginPage() {
   const [notification, setNotification] = useState('');
   const [modal, setModal] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (modal) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+    }
+  }, [modal]);
+
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
 
@@ -49,7 +57,7 @@ export default function LoginPage() {
       <div className={styles.container}>
         <h3 className={styles.title}>Авторизація</h3>
 
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete="on">
           <div className={styles.inputContainer}>
             <label className={styles.inputLabel} htmlFor="phone">
               Номер телефону:
@@ -61,6 +69,7 @@ export default function LoginPage() {
                 className={styles.phoneInputSmall}
                 type="tel"
                 id="phone"
+                autoComplete="username"
                 maxLength={9}
                 onKeyDown={(e) => {
                   if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
@@ -85,6 +94,7 @@ export default function LoginPage() {
               className={styles.input}
               type="password"
               id="password"
+              autoComplete="current-password"
               {...register('password', {
                 required: 'Будь ласка, введіть пароль',
               })}
