@@ -190,7 +190,6 @@ export default function BookingModal({
                     minTime={dayjs().set('hour', 4).set('minute', 30)}
                     maxTime={dayjs().set('hour', 22).set('minute', 30)}
                     shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
-                    skipDisabled={true}
                   />
                 </LocalizationProvider>
               </div>
@@ -205,7 +204,6 @@ export default function BookingModal({
                     minTime={dayjs().set('hour', 5).set('minute', 0)}
                     maxTime={dayjs().set('hour', 23).set('minute', 0)}
                     shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
-                    skipDisabled={true}
                   />
                 </LocalizationProvider>
               </div>
