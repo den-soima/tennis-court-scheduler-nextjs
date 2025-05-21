@@ -21,7 +21,7 @@ type Props = {
   userName: string;
   userId: string;
   courtId: string;
-  selectedDay: Dayjs;
+  selectedDate: Dayjs;
   onClose: () => void;
   onBookingSuccess?: () => void;
 };
@@ -30,7 +30,7 @@ export default function BookingModal({
   userName,
   userId,
   courtId,
-  selectedDay,
+  selectedDate,
   onClose,
   onBookingSuccess,
 }: Props) {
@@ -45,7 +45,7 @@ export default function BookingModal({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const formattedDate = selectedDay.format('YYYY-MM-DD');
+        const formattedDate = selectedDate.format('YYYY-MM-DD');
 
         const data = await getData<BookingServer[]>(`/api/courts/${courtId}/${formattedDate}`);
 
@@ -66,7 +66,7 @@ export default function BookingModal({
     };
 
     fetchData();
-  }, [courtId, selectedDay]);
+  }, [courtId, selectedDate]);
 
   const bookCourt = async (booking: CreateBooking) => {
     try {
@@ -95,13 +95,13 @@ export default function BookingModal({
 
     const bookingStart =
       startTime &&
-      dayjs(selectedDay)
+      dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
         .set('minute', dayjs(startTime).minute());
 
     const bookingEnd =
       endTime &&
-      dayjs(selectedDay).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
+      dayjs(selectedDate).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
 
     switch (true) {
       case !startTime || !endTime:
@@ -122,17 +122,17 @@ export default function BookingModal({
     }
 
     try {
-      const startDateTime = dayjs(selectedDay)
+      const startDateTime = dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
         .set('minute', dayjs(startTime).minute())
         .toISOString();
 
-      const endDateTime = dayjs(selectedDay)
+      const endDateTime = dayjs(selectedDate)
         .set('hour', dayjs(endTime).hour())
         .set('minute', dayjs(endTime).minute())
         .toISOString();
 
-      const date = dayjs(selectedDay).format('YYYY-MM-DD');
+      const date = dayjs(selectedDate).format('YYYY-MM-DD');
 
       const booking: CreateBooking = {
         userName,
@@ -176,7 +176,7 @@ export default function BookingModal({
         <div className={styles.container}>
           <h3 className={styles.title}>Бронювання</h3>
 
-          <p className={styles.date}>{dayjs(selectedDay).format('D MMMM YYYY')}</p>
+          <p className={styles.date}>{dayjs(selectedDate).format('D MMMM YYYY')}</p>
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.clockWrapper}>

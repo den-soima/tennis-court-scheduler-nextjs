@@ -8,16 +8,16 @@ import Image from 'next/image';
 
 type Props = {
   bookings: Booking[];
-  selectedDay: number | null;
-  setSelectedDay: (day: number | null) => void;
+  selectedDate: dayjs.Dayjs | null;
+  setSelectedDate: (day: dayjs.Dayjs | null) => void;
   currentMonth: dayjs.Dayjs;
   setCurrentMonth: (month: dayjs.Dayjs) => void;
 };
 
 export default function BookingCalendar({
   bookings,
-  selectedDay,
-  setSelectedDay,
+  selectedDate,
+  setSelectedDate,
   currentMonth,
   setCurrentMonth,
 }: Props) {
@@ -27,8 +27,8 @@ export default function BookingCalendar({
   const firstDayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const calendarDays = [...Array(firstDayOffset).fill(null), ...daysArray];
-  const capitalizeFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+  const capitalizeFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
   const formattedDate = capitalizeFirstChar(currentMonth.format('MMMM YYYY'));
   const twoWeeksFromNow = today.add(14, 'day');
 
@@ -54,9 +54,11 @@ export default function BookingCalendar({
       );
 
     const isToday =
-      day === today.date() && currentMonth.isSame(today, 'month') && day !== selectedDay;
+      day === today.date() &&
+      currentMonth.isSame(today, 'month') &&
+      (!selectedDate || !currentMonth.date(day).isSame(selectedDate, 'day'));
 
-    const isSelected = day === selectedDay && selectedDay !== null;
+    const isSelected = day && selectedDate && currentMonth.date(day).isSame(selectedDate, 'day');
 
     const dayClasses = [
       styles.day,
@@ -82,16 +84,20 @@ export default function BookingCalendar({
 
   const handlePrevMonthClick = () => {
     setCurrentMonth(currentMonth.subtract(1, 'month'));
-    setSelectedDay(null);
+    setSelectedDate(null);
   };
 
   const handleNextMonthClick = () => {
     setCurrentMonth(currentMonth.add(1, 'month'));
-    setSelectedDay(null);
+    setSelectedDate(null);
   };
 
   const handleDayClick = (day: number | null) => {
-    setSelectedDay(day === selectedDay ? null : day);
+    if (day === null) return;
+
+    const clickedDate = currentMonth.date(day);
+
+    setSelectedDate(selectedDate?.isSame(clickedDate, 'day') ? null : clickedDate);
   };
 
   return (
