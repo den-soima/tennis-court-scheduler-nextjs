@@ -8,8 +8,8 @@ export interface Booking {
   userId: string;
   courtId: string;
   date: string;
-  startTime: Dayjs; // Dayjs object
-  endTime: Dayjs; // Dayjs object
+  startTime: Dayjs;
+  endTime: Dayjs;
 }
 
 /// to send a NEW booking to backend ///
@@ -19,8 +19,8 @@ export interface CreateBooking {
   userId: string;
   courtId: string;
   date: string;
-  startTime: string; // ISO string
-  endTime: string; // ISO string
+  startTime: string;
+  endTime: string;
 }
 
 /// To GET and DELETE from backend ///
@@ -31,6 +31,6 @@ export interface BookingServer {
   userId: string;
   courtId: string;
   date: string;
-  startTime: string; // ISO string
-  endTime: string; // ISO string
+  startTime: string;
+  endTime: string;
 }

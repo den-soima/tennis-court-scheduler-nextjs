@@ -47,7 +47,8 @@ export default function Register() {
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
-    const result = await registerUser(data.name, preparedPhone, data.password);
+    const preparedName = data.name.trim();
+    const result = await registerUser(preparedName, preparedPhone, data.password);
 
     if (result.success) {
       setSuccessNotificatoin('Ви успішно зареєструвались!');
