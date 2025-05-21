@@ -2,6 +2,7 @@
 
 import styles from './BookingModal.module.scss';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
 import { BookingServer, CreateBooking } from '../../types/Booking';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -13,6 +14,8 @@ import { disableEnds, disableStarts } from '@/lib/timeFunctions';
 import { getData, postData } from '@/lib/fetchData';
 import { StyledClock } from '@/lib/muiStyles';
 import Loader from '../Loader/Loader';
+
+dayjs.extend(utc);
 
 type Props = {
   userName: string;
@@ -122,12 +125,12 @@ export default function BookingModal({
       const startDateTime = dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
         .set('minute', dayjs(startTime).minute())
-        .format('YYYY-MM-DDTHH:mm:ss');
+        .toISOString();
 
       const endDateTime = dayjs(selectedDate)
         .set('hour', dayjs(endTime).hour())
         .set('minute', dayjs(endTime).minute())
-        .format('YYYY-MM-DDTHH:mm:ss');
+        .toISOString();
 
       const date = dayjs(selectedDate).format('YYYY-MM-DD');
 
