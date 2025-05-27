@@ -34,5 +34,7 @@
 }
 
 .icon {
+  display: block;
+
   @include mixins.hover(transform, scale(1.1));
 }
