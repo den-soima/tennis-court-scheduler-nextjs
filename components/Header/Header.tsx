@@ -32,7 +32,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.logoLink}>
-        <div className={styles.logo}>Scheduler</div>
+        <div className={styles.logo}>Корти</div>
       </Link>
 
       <Link href="/" className={styles.avatarWrapper} onClick={handleMenuVisibility}>
