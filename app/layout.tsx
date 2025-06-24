@@ -5,8 +5,6 @@ import { AuthProvider } from '@/context/authContext';
 import Header from '@/components/Header/Header';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 
 const nunito = Nunito({
   subsets: ['latin', 'cyrillic'],

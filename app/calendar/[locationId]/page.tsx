@@ -16,8 +16,6 @@ import { convertBookingToDayjs } from '@/lib/convertBookings';
 import { useParams } from 'next/navigation';
 import BookingModal from '@/components/BookingModal/BookingModal';
 import Loader from '@/components/Loader/Loader';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 
 dayjs.locale('uk');
 
