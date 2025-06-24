@@ -9,7 +9,7 @@ export const StyledClock = styled(DigitalClock)({
     padding: '4px 8px',
     fontSize: '0.9rem',
   },
-  '& .Mui-selected': {
+  '& .Mui-selected, & .MuiMenuItem-root.Mui-selected, & .MuiDigitalClockItem-root.Mui-selected': {
     backgroundColor: '#f9cb8a',
     borderRadius: '16px',
     color: 'black',

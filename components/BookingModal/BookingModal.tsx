@@ -34,13 +34,19 @@ export default function BookingModal({
   onClose,
   onBookingSuccess,
 }: Props) {
-  const [startTime, setStartTime] = useState<Dayjs | null>(null);
-  const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const nowIso = dayjs().minute(0).format('YYYY-MM-DDTHH:mm');
+  console.log('Current ISO time: ', nowIso);
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(nowIso));
+  //  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs('2025-06-24T08:00'));
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(nowIso).add(1, 'hour'));
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [bookedStarts, setBookedStarts] = useState<Dayjs[]>([]);
   const [bookedEnds, setBookedEnds] = useState<Dayjs[]>([]);
   const [formError, setFormError] = useState<string>('');
+
+  console.log('Current date: ', dayjs());
+  console.log('Booked ends: ', bookedEnds);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,6 +125,10 @@ export default function BookingModal({
       case bookingEnd && bookingStart && bookingEnd.diff(bookingStart, 'minute') < 60:
         setFormError('Тренування має тривати хоча б 1 годину');
         return;
+
+      case bookingEnd && bookingStart && bookedEnds.some((v) => v > bookingStart && v < bookingEnd):
+        setFormError('Бронювання накладається на існуюче');
+        return;
     }
 
     try {
@@ -162,6 +172,13 @@ export default function BookingModal({
     onClose();
   };
 
+  const startTimeOnChange = (newValue: Dayjs | null) => {
+    if (newValue && endTime && endTime.diff(newValue, 'hour', true) < 1) {
+      setEndTime(newValue.add(1, 'hour'));
+    }
+    setStartTime(newValue);
+  };
+
   return (
     <div className={styles.modal}>
       <div className={styles.buttonContainer}>
@@ -186,7 +203,7 @@ export default function BookingModal({
                   <StyledClock
                     ampm={false}
                     value={startTime}
-                    onChange={(newValue) => setStartTime(newValue)}
+                    onChange={startTimeOnChange}
                     minTime={dayjs().set('hour', 4).set('minute', 30)}
                     maxTime={dayjs().set('hour', 22).set('minute', 30)}
                     shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
