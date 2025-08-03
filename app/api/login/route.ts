@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ phone });
 
     if (!user) {
-      return NextResponse.json({ message: 'Користувач не знайден' }, { status: 404 });
+      return NextResponse.json({ message: 'Користувач не знайдений' }, { status: 404 });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
