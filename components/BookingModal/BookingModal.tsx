@@ -103,14 +103,11 @@ export default function BookingModal({
       startTime &&
       dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
-        .set('minute', dayjs(startTime).minute())
-       
+        .set('minute', dayjs(startTime).minute());
 
     const bookingEnd =
       endTime &&
-      dayjs(selectedDate)
-          .set('hour', dayjs(endTime).hour())
-          .set('minute', dayjs(endTime).minute())
+      dayjs(selectedDate).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
 
     switch (true) {
       case !startTime || !endTime:
@@ -129,7 +126,9 @@ export default function BookingModal({
         setFormError('Тренування має тривати хоча б 1 годину');
         return;
 
-      case bookingEnd && bookingStart && bookedEnds.some((v) =>  v.isAfter(bookingStart) && v.isBefore(bookingEnd)):
+      case bookingEnd &&
+        bookingStart &&
+        bookedEnds.some((v) => v.isAfter(bookingStart) && v.isBefore(bookingEnd)):
         setFormError('Бронювання накладається на існуюче');
         return;
     }
@@ -138,13 +137,13 @@ export default function BookingModal({
       const startDateTime = dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
         .set('minute', dayjs(startTime).minute())
-          .set('second', 0)
+        .set('second', 0)
         .toISOString();
 
       const endDateTime = dayjs(selectedDate)
         .set('hour', dayjs(endTime).hour())
         .set('minute', dayjs(endTime).minute())
-          .set('second', 0)
+        .set('second', 0)
         .toISOString();
 
       const date = dayjs(selectedDate).format('YYYY-MM-DD');

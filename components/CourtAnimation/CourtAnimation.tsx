@@ -4,12 +4,10 @@ import styles from './CourtAnimation.module.scss';
 import { useEffect, useState } from 'react';
 
 export default function CourtAnimation() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 350, y: 120 });
   const [direction, setDirection] = useState<'left' | 'right'>('right');
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
     const moveBall = () => {
       const newX =
         direction === 'right'
@@ -21,11 +19,10 @@ export default function CourtAnimation() {
       setPosition({ x: newX, y: newY });
       setDirection((prev) => (prev === 'left' ? 'right' : 'left'));
 
-      timeoutId = setTimeout(moveBall, 2000);
+      setTimeout(moveBall, 2000);
     };
 
-    moveBall();
-
+    const timeoutId = setTimeout(moveBall, 2000);
     return () => clearTimeout(timeoutId);
   }, []);
 
