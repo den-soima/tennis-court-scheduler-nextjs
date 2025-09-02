@@ -37,10 +37,21 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await connectToDatabase();
 
   try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      const user = await User.findById(id);
+      if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+      return NextResponse.json(user, { status: 200 });
+    }
+
     const users = await User.find();
     return NextResponse.json(users, { status: 200 });
   } catch (error: unknown) {

@@ -119,7 +119,6 @@ export default function Calendar() {
       {modal === 'booking' && selectedDate && user && (
         <div className={styles.modalOverlay}>
           <BookingModal
-            userName={user.name}
             userId={user.id}
             courtId={locationId}
             selectedDate={selectedDate}

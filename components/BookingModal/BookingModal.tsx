@@ -18,7 +18,6 @@ import Loader from '../Loader/Loader';
 dayjs.extend(utc);
 
 type Props = {
-  userName: string;
   userId: string;
   courtId: string;
   selectedDate: Dayjs;
@@ -27,23 +26,26 @@ type Props = {
 };
 
 export default function BookingModal({
-  userName,
   userId,
   courtId,
   selectedDate,
   onClose,
   onBookingSuccess,
 }: Props) {
-  const nowIso = dayjs().minute(0).format('YYYY-MM-DDTHH:mm');
-  console.log('Current ISO time: ', nowIso);
-  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(nowIso));
+  const defaultTime = dayjs(selectedDate).isSame(dayjs(), 'day')
+    ? dayjs().minute(0).format('YYYY-MM-DDTHH:mm')
+    : dayjs().hour(12).minute(0).format('YYYY-MM-DDTHH:mm');
+  console.log('Current ISO time: ', defaultTime);
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(defaultTime));
   //  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs('2025-06-24T08:00'));
-  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(nowIso).add(1, 'hour'));
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(defaultTime).add(1, 'hour'));
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [bookedStarts, setBookedStarts] = useState<Dayjs[]>([]);
   const [bookedEnds, setBookedEnds] = useState<Dayjs[]>([]);
   const [formError, setFormError] = useState<string>('');
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userLoadError, setUserLoadError] = useState<string | null>(null);
 
   console.log('Current date: ', dayjs());
   console.log('Booked ends: ', bookedEnds);
@@ -74,6 +76,31 @@ export default function BookingModal({
     fetchData();
   }, [courtId, selectedDate]);
 
+  // Load user name by id
+  useEffect(() => {
+    let isMounted = true;
+    setUserLoadError(null);
+    setUserName(null);
+    const load = async () => {
+      try {
+        const user = await getData<{ _id: string; name: string; phone: string }>(
+          `/api/users?id=${userId}`
+        );
+        if (isMounted) {
+          setUserName(user.name);
+        }
+      } catch {
+        if (isMounted) {
+          setUserLoadError('Не вдалося завантажити користувача');
+        }
+      }
+    };
+    if (userId) load();
+    return () => {
+      isMounted = false;
+    };
+  }, [userId]);
+
   const bookCourt = async (booking: CreateBooking) => {
     try {
       setLoading(true);
@@ -103,11 +130,20 @@ export default function BookingModal({
       startTime &&
       dayjs(selectedDate)
         .set('hour', dayjs(startTime).hour())
-        .set('minute', dayjs(startTime).minute());
+        .set('minute', dayjs(startTime).minute())
+        .set('second', 0);
 
     const bookingEnd =
       endTime &&
-      dayjs(selectedDate).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
+      dayjs(selectedDate)
+        .set('hour', dayjs(endTime).hour())
+        .set('minute', dayjs(endTime).minute())
+        .set('second', 0);
+
+    // Weekday blocked interval [08:30, 14:00) validation helpers
+    const isWeekday = selectedDate.day() >= 1 && selectedDate.day() <= 5;
+    const blockedStart = dayjs(selectedDate).set('hour', 8).set('minute', 30).set('second', 0);
+    const blockedEnd = dayjs(selectedDate).set('hour', 14).set('minute', 0).set('second', 0);
 
     switch (true) {
       case !startTime || !endTime:
@@ -124,6 +160,15 @@ export default function BookingModal({
 
       case bookingEnd && bookingStart && bookingEnd.diff(bookingStart, 'minute') < 60:
         setFormError('Тренування має тривати хоча б 1 годину');
+        return;
+
+      // Block weekday interval overlap (08:30–14:00)
+      case bookingEnd &&
+        bookingStart &&
+        isWeekday &&
+        bookingStart.isBefore(blockedEnd) &&
+        bookingEnd.isAfter(blockedStart):
+        setFormError('Шкільний час (будні 08:30–14:00)');
         return;
 
       case bookingEnd &&
@@ -149,7 +194,7 @@ export default function BookingModal({
       const date = dayjs(selectedDate).format('YYYY-MM-DD');
 
       const booking: CreateBooking = {
-        userName,
+        userName: userName || 'Користувач',
         userId,
         courtId,
         date,
@@ -210,7 +255,7 @@ export default function BookingModal({
                     onChange={startTimeOnChange}
                     minTime={dayjs().set('hour', 4).set('minute', 30)}
                     maxTime={dayjs().set('hour', 22).set('minute', 30)}
-                    shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
+                    shouldDisableTime={disableStarts(bookedStarts, bookedEnds, selectedDate)}
                   />
                 </LocalizationProvider>
               </div>
@@ -224,7 +269,7 @@ export default function BookingModal({
                     onChange={(newValue) => setEndTime(newValue)}
                     minTime={dayjs().set('hour', 5).set('minute', 0)}
                     maxTime={dayjs().set('hour', 23).set('minute', 0)}
-                    shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
+                    shouldDisableTime={disableEnds(bookedStarts, bookedEnds, selectedDate)}
                   />
                 </LocalizationProvider>
               </div>
@@ -232,10 +277,11 @@ export default function BookingModal({
 
             <div className={styles.buttonWrapper}>
               {formError && <p className={styles.formError}>{formError}</p>}
+              {userLoadError && <p className={styles.formError}>{userLoadError}</p>}
 
               <button
                 className={`${styles.button} ${loading ? styles.isLoading : ''}`}
-                disabled={!startTime || !endTime}
+                disabled={!startTime || !endTime || !userName}
               >
                 {loading ? <Loader /> : 'Підтвердити'}
               </button>
