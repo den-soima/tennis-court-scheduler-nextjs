@@ -16,6 +16,7 @@ import { convertBookingToDayjs } from '@/lib/convertBookings';
 import { useParams } from 'next/navigation';
 import BookingModal from '@/components/BookingModal/BookingModal';
 import Loader from '@/components/Loader/Loader';
+import { lastBookableDate } from '@/lib/bookingConfig';
 
 dayjs.locale('uk');
 
@@ -87,6 +88,9 @@ export default function Calendar() {
     : [];
 
   const isPastSelectedDay = selectedDate ? selectedDate.isBefore(today, 'day') : false;
+  const isSelectedDayAfterCutoff = selectedDate
+    ? selectedDate.isAfter(dayjs(lastBookableDate), 'day')
+    : false;
 
   return (
     <div className={styles.page}>
@@ -135,7 +139,7 @@ export default function Calendar() {
       )}
 
       <button
-        disabled={isPastSelectedDay || selectedDate === null}
+        disabled={isPastSelectedDay || isSelectedDayAfterCutoff || selectedDate === null}
         className={`${styles.buttonBook} ${!selectedDate ? styles.disabled : ''}`}
         onClick={handleBookClick}
       >

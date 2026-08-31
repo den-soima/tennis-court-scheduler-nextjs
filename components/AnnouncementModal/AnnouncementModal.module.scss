@@ -1,0 +1,69 @@
+@use 'base/typography' as typography;
+@use 'settings/variables' as variables;
+@use 'helpers/mixins' as mixins;
+
+.modalOverlay {
+  @include mixins.modal-overlay;
+  padding: variables.$padding-mobile;
+}
+
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: variables.$border-radius;
+
+  @include mixins.on-desktop {
+    width: 540px;
+    padding: 20px;
+  }
+}
+
+.container {
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.text {
+  text-align: center;
+  font-size: 16px;
+}
+
+.link {
+  text-align: center;
+  word-break: break-word;
+  font-size: 16px;
+  font-weight: 700;
+  color: variables.$primary-color;
+
+  @include mixins.hover(color, variables.$accent-color);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button {
+  @include mixins.green-button;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# JetBrains IDEs (WebStorm, IntelliJ IDEA, Rider, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws

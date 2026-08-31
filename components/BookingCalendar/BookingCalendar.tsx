@@ -4,6 +4,7 @@ import styles from './BookingCalendar.module.scss';
 import dayjs from 'dayjs';
 import { Booking } from '../../types/Booking';
 import { getArrowLeftIcon, getArrowRightIcon } from '@/lib/getImages';
+import { lastBookableDate } from '@/lib/bookingConfig';
 import Image from 'next/image';
 
 type Props = {
@@ -30,7 +31,7 @@ export default function BookingCalendar({
 
   const capitalizeFirstChar = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
   const formattedDate = capitalizeFirstChar(currentMonth.format('MMMM YYYY'));
-  const twoWeeksFromNow = today.add(14, 'day');
+  const bookingCutoff = dayjs(lastBookableDate).endOf('day');
 
   const relevantBookings = bookings.filter((b) => dayjs(b.startTime).isAfter(today));
   const pastBookings = bookings.filter((b) => dayjs(b.startTime).isBefore(today, 'day'));
@@ -38,7 +39,7 @@ export default function BookingCalendar({
   const renderedDays = calendarDays.map((day, index) => {
     const dateObj = day ? currentMonth.date(day).endOf('day') : null;
     const isPastDate = dateObj ? dateObj.isBefore(today, 'day') : false;
-    const isAfterTwoWeeks = dateObj ? dateObj.isAfter(twoWeeksFromNow, 'day') : false;
+    const isAfterCutoff = dateObj ? dateObj.isAfter(bookingCutoff, 'day') : false;
     const isWeekend = index % 7 === 5 || index % 7 === 6;
 
     const hasRelevantBooking =
@@ -68,7 +69,7 @@ export default function BookingCalendar({
       hasPastBooking ? styles.hasPastBooking : '',
       hasRelevantBooking ? styles.hasRelevantBooking : '',
       isSelected ? styles.selectedDay : '',
-      isAfterTwoWeeks ? styles.disabledDay : '',
+      isAfterCutoff ? styles.disabledDay : '',
     ]
       .filter(Boolean)
       .join(' ');
@@ -77,7 +78,7 @@ export default function BookingCalendar({
       day,
       index,
       className: dayClasses,
-      isAfterTwoWeeks,
+      isAfterCutoff,
       isPastDate,
     };
   });
@@ -137,12 +138,12 @@ export default function BookingCalendar({
       </div>
 
       <div className={styles.days}>
-        {renderedDays.map(({ day, index, className, isAfterTwoWeeks }) => (
+        {renderedDays.map(({ day, index, className, isAfterCutoff }) => (
           <div
             key={index}
             className={className}
             onClick={() => {
-              if (day !== null && !isAfterTwoWeeks) {
+              if (day !== null && !isAfterCutoff) {
                 handleDayClick(day);
               }
             }}

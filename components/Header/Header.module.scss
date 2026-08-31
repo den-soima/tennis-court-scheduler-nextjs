@@ -38,6 +38,50 @@
   }
 }
 
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.announcementButton {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: variables.$red-notification-text;
+  color: variables.$white-background;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  animation: pulse 1.8s ease-in-out infinite;
+
+  @include mixins.hover(transform, scale(1.1));
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(234, 11, 11, 0.55);
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(234, 11, 11, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(234, 11, 11, 0);
+  }
+}
+
 .avatarWrapper {
   position: relative;
   cursor: pointer;

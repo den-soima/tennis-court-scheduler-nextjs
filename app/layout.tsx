@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import '../styles/globals.scss';
 import { AuthProvider } from '@/context/authContext';
+import { AnnouncementModalProvider } from '@/context/announcementModalContext';
 import Header from '@/components/Header/Header';
+import AnnouncementModal from '@/components/AnnouncementModal/AnnouncementModal';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -28,8 +30,11 @@ export default function RootLayout({
     <html lang="uk" className={nunito.variable}>
       <body>
         <AuthProvider>
-          <Header />
-          {children}
+          <AnnouncementModalProvider>
+            <Header />
+            {children}
+            <AnnouncementModal />
+          </AnnouncementModalProvider>
         </AuthProvider>
         <SpeedInsights />
         <Analytics />
